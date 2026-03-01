@@ -2,7 +2,7 @@
 
 Enterprise data reconciliation, hierarchy management, and financial modeling via the [Model Context Protocol](https://modelcontextprotocol.io/).
 
-**297 MCP tools** across 44 modules for profiling, fuzzy matching, hash comparison, hierarchy building, dbt generation, and Snowflake deployment. Includes online decision-making (VOI, Thompson Sampling bandits, Monte Carlo rollouts) for intelligent workflow planning.
+**302 MCP tools** across 44 modules for profiling, fuzzy matching, hash comparison, hierarchy building, dbt generation, and Snowflake deployment. Includes online decision-making (VOI, Thompson Sampling bandits, Monte Carlo rollouts) for intelligent workflow planning and a pre-release validation harness (falsification search, property checks, failure clustering, release gating).
 
 ## Quick Start
 
@@ -75,9 +75,9 @@ print(f"{result['rows']:,} rows, {result['columns']} columns")
 
 | Edition | Tools | Install |
 |---------|-------|---------|
-| Community (CE) | 297 | `pip install databridge-ai` |
+| Community (CE) | 302 | `pip install databridge-ai` |
 | Pro | ~320 | `pip install databridge-ai-pro` |
-| Enterprise | 362 | Private deployment |
+| Enterprise | 367 | Private deployment |
 
 ## Links
 
