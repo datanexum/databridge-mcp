@@ -2,7 +2,7 @@
 
 Enterprise data reconciliation, hierarchy management, and financial modeling via the [Model Context Protocol](https://modelcontextprotocol.io/).
 
-**297 MCP tools** across 43 modules for profiling, fuzzy matching, hash comparison, hierarchy building, dbt generation, and Snowflake deployment.
+**297 MCP tools** across 44 modules for profiling, fuzzy matching, hash comparison, hierarchy building, dbt generation, and Snowflake deployment. Includes online decision-making (VOI, Thompson Sampling bandits, Monte Carlo rollouts) for intelligent workflow planning.
 
 ## Quick Start
 
