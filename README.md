@@ -2,7 +2,7 @@
 
 Enterprise data reconciliation, hierarchy management, and financial modeling via the [Model Context Protocol](https://modelcontextprotocol.io/).
 
-**316 MCP tools** across 46 modules for profiling, fuzzy matching, hash comparison, hierarchy building, dbt generation, and Snowflake deployment. Includes online decision-making (VOI, Thompson Sampling bandits, Monte Carlo rollouts) for intelligent workflow planning, a pre-release validation harness (falsification search, property checks, failure clustering, release gating), KB graph enhancement with evidence trails and quality gates (Build 4), closed-loop self-improvement with Platt-scaled calibration and ROI-driven active learning (Build 5), enterprise intelligence with cost-aware optimization, governance dashboards, and decision debate (Build 6), and DataShield with deterministic client keys (HKDF) and semantic-preserving scrambling.
+**316 MCP tools** across 46 modules for profiling, fuzzy matching, hash comparison, hierarchy building, dbt generation, and Snowflake deployment. Includes online decision-making (VOI, Thompson Sampling bandits, Monte Carlo rollouts) for intelligent workflow planning, a pre-release validation harness (falsification search, property checks, failure clustering, release gating), KB graph enhancement with evidence trails and quality gates (Build 4), closed-loop self-improvement with Platt-scaled calibration and ROI-driven active learning (Build 5), enterprise intelligence with cost-aware optimization, governance dashboards, and decision debate (Build 6), and DataShield with deterministic client keys (HKDF) and semantic-preserving scrambling. v0.48.1 includes Docker production build fixes and CI pipeline modernization.
 
 ## Quick Start
 
