@@ -8,14 +8,14 @@ name: databridge-ai
 displayName: DataBridge AI
 description: >
   Enterprise data reconciliation, hierarchy management, and financial modeling.
-  316 tools for profiling, fuzzy matching, hash comparison, hierarchy building,
+  325 tools for profiling, fuzzy matching, hash comparison, hierarchy building,
   dbt generation, and Snowflake deployment.
-# icon: https://raw.githubusercontent.com/datanexum/databridge-mcp/main/assets/icon.png
+# icon: https://raw.githubusercontent.com/datanexum/DATABRIDGE_AI/master/assets/icon.png
 author:
   name: DataBridge AI
   url: https://github.com/datanexum
 license: MIT
-repository: https://github.com/datanexum/databridge-mcp
+repository: https://github.com/datanexum/DATABRIDGE_AI
 
 categories:
   - data
@@ -33,7 +33,6 @@ keywords:
   - chart-of-accounts
   - financial-modeling
   - etl
-  - mcp
 
 # Server configuration for Smithery
 startCommand:
@@ -45,7 +44,7 @@ startCommand:
         type: string
         enum: ["slim", "full"]
         default: "full"
-        description: "Tool loading mode. slim = ~25 workflow tools, full = 316 tools"
+        description: "Tool loading mode. slim = ~15 workflow tools, full = 325 tools"
       demoMode:
         type: boolean
         default: false
@@ -53,18 +52,15 @@ startCommand:
     required: []
   commandFunction: |-
     (config) => ({
-      command: "docker",
-      args: [
-        "run", "-i", "--rm",
-        "-e", `DATABRIDGE_TOOL_MODE=${config.toolMode || "full"}`,
-        "-e", `DATABRIDGE_DEMO_MODE=${String(config.demoMode || false)}`,
-        "ghcr.io/datanexum/databridge-mcp:latest",
-        "python", "run_server.py",
-        config.toolMode === "slim" ? "--slim" : "--full"
-      ]
+      command: "python",
+      args: ["run_server.py", config.toolMode === "slim" ? "--slim" : "--full"],
+      env: {
+        DATABRIDGE_TOOL_MODE: config.toolMode || "full",
+        DATABRIDGE_DEMO_MODE: String(config.demoMode || false)
+      }
     })
 
-# Docker-based alternative (SSE mode)
+# Docker-based alternative
 docker:
   image: ghcr.io/datanexum/databridge-mcp:latest
   ports:
