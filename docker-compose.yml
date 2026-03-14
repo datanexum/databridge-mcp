@@ -1,0 +1,337 @@
+services:
+  # --- CE Tier (default) ---
+
+  databridge-ai:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5050:5050"
+    environment:
+      - DATABRIDGE_TOOL_MODE=slim
+      - DATABRIDGE_DEMO_MODE=false
+      - PYTHONUNBUFFERED=1
+      - GUNICORN_WORKERS=4
+    volumes:
+      - databridge-data:/app/data
+    restart: unless-stopped
+
+  # Demo mode: pre-loaded samples, guided tour, all CE tools
+  databridge-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5050:5050"
+    environment:
+      - DATABRIDGE_TOOL_MODE=full
+      - DATABRIDGE_DEMO_MODE=true
+      - PYTHONUNBUFFERED=1
+    profiles:
+      - demo
+    restart: unless-stopped
+
+  # MCP Server: standalone SSE + REST API server
+  databridge-mcp:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+      args:
+        BUILD_MODE: production
+    ports:
+      - "786:786"
+    environment:
+      - DATABRIDGE_TOOL_MODE=full
+      - DATABRIDGE_DEMO_MODE=false
+      - PYTHONUNBUFFERED=1
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://databridge:databridge@postgres:5432/databridge
+      - DATABRIDGE_API_AUTH_ENABLED=true
+      - API_KEY_STORAGE=postgres
+    volumes:
+      - databridge-data:/app/data
+      - databridge-logs:/app/logs
+    profiles:
+      - mcp
+      - pro
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+
+  # --- Pro Tier (--profile pro) ---
+
+  # Dashboard with HTTP bridge to MCP server
+  databridge-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5050:5050"
+    environment:
+      - DATABRIDGE_TOOL_MODE=full
+      - DATABRIDGE_USE_MCP_HTTP=true
+      - DATABRIDGE_MCP_URL=http://databridge-mcp:786
+      - REDIS_URL=redis://redis:6379
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - databridge-data:/app/data
+    profiles:
+      - pro
+    restart: unless-stopped
+    depends_on:
+      - databridge-mcp
+      - redis
+
+  # Redis: caching, pub/sub, Celery broker
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6381:6379"
+    command: redis-server --maxmemory 256mb --maxmemory-policy allkeys-lru --appendonly yes
+    volumes:
+      - redis-data:/data
+    profiles:
+      - pro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # --- Enterprise Tier (--profile pro) ---
+
+  # PostgreSQL: persistent state backend
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=databridge
+      - POSTGRES_USER=databridge
+      - POSTGRES_PASSWORD=databridge  # CHANGE IN PRODUCTION
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    profiles:
+      - pro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U databridge"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Qdrant: vector search engine
+  qdrant:
+    image: qdrant/qdrant:latest
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant-data:/qdrant/storage
+    profiles:
+      - pro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:6333/readyz"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # MinIO: S3-compatible object storage
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=minioadmin      # CHANGE IN PRODUCTION
+      - MINIO_ROOT_PASSWORD=minioadmin  # CHANGE IN PRODUCTION
+    volumes:
+      - minio-data:/data
+    profiles:
+      - pro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/ready"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Celery workers
+  worker-general:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    command: celery -A src.task_queue.celery_app worker --queues=normal,critical --concurrency=4 --pool=threads --loglevel=info
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - REDIS_URL=redis://redis:6379
+      - POSTGRES_URL=postgresql://databridge:databridge@postgres:5432/databridge
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - databridge-data:/app/data
+    profiles:
+      - pro
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker-llm:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    command: celery -A src.task_queue.celery_app worker --queues=llm --concurrency=2 --pool=threads --loglevel=info
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - REDIS_URL=redis://redis:6379
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - databridge-data:/app/data
+    profiles:
+      - pro
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  worker-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    command: celery -A src.task_queue.celery_app worker --queues=cpu --concurrency=2 --pool=prefork --loglevel=info
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+      - REDIS_URL=redis://redis:6379
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - databridge-data:/app/data
+    profiles:
+      - pro
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_healthy
+
+  # Flower: Celery monitoring dashboard
+  flower:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+    command: celery -A src.task_queue.celery_app flower --port=5555
+    ports:
+      - "5555:5555"
+    environment:
+      - CELERY_BROKER_URL=redis://redis:6379/0
+      - CELERY_RESULT_BACKEND=redis://redis:6379/1
+    profiles:
+      - pro
+    restart: unless-stopped
+    depends_on:
+      - redis
+
+  # --- IKE Microservice (--profile pro) ---
+
+  # IKE: Institutional Wisdom — self-learning knowledge engine (6 pillars, 34 MCP tools)
+  ike:
+    build:
+      context: ./ike
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+      - "50051:50051"
+    environment:
+      - IKE_STORAGE_BACKEND=postgres
+      - IKE_PG_DSN=postgresql+asyncpg://ike:ike@ike-postgres:5432/ike
+      - IKE_LOG_LEVEL=INFO
+      - IKE_EXCEL_ENABLED=true
+      - PYTHONUNBUFFERED=1
+    profiles:
+      - pro
+    restart: unless-stopped
+    depends_on:
+      ike-postgres:
+        condition: service_healthy
+
+  # IKE PostgreSQL + pgvector
+  ike-postgres:
+    image: pgvector/pgvector:pg16
+    environment:
+      - POSTGRES_USER=ike
+      - POSTGRES_PASSWORD=ike  # CHANGE IN PRODUCTION
+      - POSTGRES_DB=ike
+    volumes:
+      - ike-pg-data:/var/lib/postgresql/data
+    profiles:
+      - pro
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ike"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # --- SPCS Tier (--profile spcs) --- local testing of SPCS configuration
+  databridge-spcs:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+      args:
+        BUILD_MODE: production
+    ports:
+      - "786:786"
+    environment:
+      - DATABRIDGE_TOOL_MODE=full
+      - DEPLOYMENT_MODE=spcs
+      - LLM_PROVIDER=cortex
+      - PERSISTENCE_BACKEND=snowflake
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    volumes:
+      - databridge-data:/app/data
+      - databridge-logs:/app/logs
+    profiles:
+      - spcs
+    restart: unless-stopped
+
+  # --- Azure Tier (--profile azure) --- local testing of Azure configuration
+  databridge-azure:
+    build:
+      context: .
+      dockerfile: Dockerfile.mcp
+      args:
+        BUILD_MODE: production
+    ports:
+      - "786:786"
+    environment:
+      - DATABRIDGE_TOOL_MODE=full
+      - DEPLOYMENT_MODE=azure
+      - LLM_PROVIDER=azure_openai
+      - STORAGE_BACKEND=azure_blob
+      - PYTHONUNBUFFERED=1
+    env_file:
+      - .env
+    volumes:
+      - databridge-data:/app/data
+      - databridge-logs:/app/logs
+    profiles:
+      - azure
+    restart: unless-stopped
+
+volumes:
+  databridge-data:
+  databridge-logs:
+  redis-data:
+  postgres-data:
+  qdrant-data:
+  minio-data:
+  ike-pg-data:

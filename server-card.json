@@ -1,0 +1,28 @@
+{
+  "serverInfo": {
+    "name": "DataBridge AI",
+    "version": "0.49.0"
+  },
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false
+  },
+  "tools": [
+    {"name": "profile_data", "description": "Profile a CSV file: structure, quality, cardinality, key detection"},
+    {"name": "compare_hashes", "description": "Compare two data sources by hashing rows on key columns"},
+    {"name": "fuzzy_match_columns", "description": "Find fuzzy matches between two CSV columns using similarity scoring"},
+    {"name": "detect_schema_drift", "description": "Detect schema changes between two CSV files"},
+    {"name": "transform_column", "description": "Apply string transformations to a CSV column"},
+    {"name": "merge_sources", "description": "Merge two CSV files on key columns with inner/left/right/outer join"},
+    {"name": "find_files", "description": "Find files matching a glob pattern"},
+    {"name": "parse_table_from_text", "description": "Parse tabular data from text or clipboard"},
+    {"name": "triage_excel_batch", "description": "Scan directory of Excel files and classify by archetype"},
+    {"name": "hierarchy_create", "description": "Create a multi-level business hierarchy"},
+    {"name": "hierarchy_add_node", "description": "Add a node to a hierarchy at a specified level"},
+    {"name": "blce_parse_formula", "description": "Parse and analyze Excel/SQL formulas for business logic"},
+    {"name": "wright_from_hierarchy", "description": "Generate a complete Wright pipeline from a hierarchy definition"},
+    {"name": "update_manifest", "description": "Update the tool manifest with current tool state"},
+    {"name": "get_system_status", "description": "Get current system status including tool count and mode"}
+  ]
+}

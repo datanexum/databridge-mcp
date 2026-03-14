@@ -1,0 +1,25 @@
+# Shared data volume for MCP server pods (ReadWriteMany required for multi-pod)
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: databridge-data
+  namespace: databridge
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+---
+# Logs volume
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: databridge-logs
+  namespace: databridge
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 5Gi

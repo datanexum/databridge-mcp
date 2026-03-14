@@ -1,0 +1,6 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: databridge
+  labels:
+    app.kubernetes.io/part-of: databridge-ai

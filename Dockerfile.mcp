@@ -1,0 +1,114 @@
+# check=skip=SecretsUsedInArgOrEnv
+# DataBridge AI — MCP Server Image
+# Optimized for running the MCP server via SSE transport in containers.
+# Usage:
+#   docker build -f Dockerfile.mcp -t databridge-mcp .
+#   docker run -p 786:786 databridge-mcp
+#
+# Production build (source stripped):
+#   docker build --build-arg BUILD_MODE=production -f Dockerfile.mcp -t databridge-mcp .
+
+FROM python:3.12-slim
+
+# BUILD_MODE: development (default, source included) or production (source stripped)
+ARG BUILD_MODE=development
+
+LABEL maintainer="DataBridge AI <hello@databridgeai.com>"
+LABEL description="DataBridge AI MCP Server — 325 CE tools, 232 IP-protected modules, SDK layer with license gate"
+LABEL org.opencontainers.image.source="https://github.com/datanexum/DATABRIDGE_AI"
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy package metadata first for layer caching
+COPY pyproject.toml README.md LICENSE NOTICE ./
+
+# Copy internal databridge-core (audit, config, database, cli) and install first
+COPY libs/databridge-core/ libs/databridge-core/
+RUN pip install --no-cache-dir -e "./libs/databridge-core[mcp]"
+
+# Copy source
+COPY databridge/ databridge/
+COPY src/ src/
+COPY sdk/ sdk/
+COPY run_server.py ./
+COPY scripts/strip_source.py scripts/strip_source.py
+
+# Copy templates, skills, and console dashboard
+COPY templates/ templates/
+COPY skills/ skills/
+COPY console_dashboard/ console_dashboard/
+
+# Copy local adapter packages (all tiers — PRO packages fail gracefully without license)
+COPY packages/databridge-orchestrator/ packages/databridge-orchestrator/
+COPY packages/databridge-quality/ packages/databridge-quality/
+COPY packages/databridge-data-modeling/ packages/databridge-data-modeling/
+COPY packages/databridge-cortex/ packages/databridge-cortex/
+COPY packages/databridge-graphrag/ packages/databridge-graphrag/
+COPY packages/databridge-hierarchy/ packages/databridge-hierarchy/
+COPY packages/databridge-lineage/ packages/databridge-lineage/
+COPY packages/databridge-observability/ packages/databridge-observability/
+
+# Pin fastmcp to 2.x (3.x has breaking API changes)
+# Celery + Flower for Pro/Enterprise worker containers (same image, different CMD)
+RUN pip install --no-cache-dir "fastmcp>=2.0.0,<3.0.0" "celery[redis]>=5.3" "flower>=2.0" "snowflake-sqlalchemy>=1.5"
+
+# Azure + OpenAI SDKs for enterprise multi-cloud deployment (optional at runtime)
+RUN pip install --no-cache-dir \
+    "azure-identity>=1.15.0" \
+    "azure-keyvault-secrets>=4.7.0" \
+    "azure-storage-blob>=12.19.0" \
+    "openai>=1.30.0" \
+    2>/dev/null || true
+
+# Install the main package
+RUN pip install --no-cache-dir -e ".[all]" 2>/dev/null || \
+    pip install --no-cache-dir pandas pydantic click rich rapidfuzz sqlalchemy
+
+# Install local adapter packages + sqlglot (BLCE SQL parser)
+RUN pip install --no-cache-dir \
+    -e "./packages/databridge-orchestrator" \
+    -e "./packages/databridge-quality" \
+    -e "./packages/databridge-data-modeling" \
+    -e "./packages/databridge-cortex" \
+    -e "./packages/databridge-graphrag" \
+    -e "./packages/databridge-hierarchy" \
+    -e "./packages/databridge-lineage" \
+    -e "./packages/databridge-observability" \
+    "sqlglot>=23.0" \
+    2>/dev/null || pip install --no-cache-dir \
+    -e "./packages/databridge-orchestrator" \
+    -e "./packages/databridge-quality" \
+    -e "./packages/databridge-data-modeling" \
+    "sqlglot>=23.0"
+
+# Create data and logs directories
+RUN mkdir -p data logs knowledge_base
+
+# Production build: compile to .pyc and strip .py source from IP modules
+# Also remove the keygen script (server-only, never shipped)
+RUN if [ "$BUILD_MODE" = "production" ]; then \
+        python -m compileall -q databridge/ src/ sdk/ && \
+        python scripts/strip_source.py --base-dir /app && \
+        rm -f src/licensing/keygen.py; \
+    fi
+
+# Environment
+ENV PYTHONUNBUFFERED=1
+ENV DATABRIDGE_TOOL_MODE=full
+ENV DATABRIDGE_DEMO_MODE=false
+ENV SNOWFLAKE_TOKEN_PATH=/snowflake/session/token
+
+# Expose MCP SSE port
+EXPOSE 786
+
+# Health check — verify the Python process is alive and fastmcp is importable
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s \
+    CMD python -c "import fastmcp; print('ok')" || exit 1
+
+# Default: run MCP server in SSE mode (full tools)
+CMD ["python", "run_server.py", "--full", "--sse", "--host", "0.0.0.0", "--port", "786"]

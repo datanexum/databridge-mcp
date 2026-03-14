@@ -1,0 +1,275 @@
+DATABRIDGE AI — PROPRIETARY SOFTWARE LICENSE AGREEMENT
+
+Copyright (c) 2024-2026 Datanexum Consulting LLC. All Rights Reserved.
+
+================================================================================
+
+IMPORTANT — READ CAREFULLY BEFORE USING THIS SOFTWARE
+
+This Proprietary Software License Agreement ("Agreement") is a legally binding
+agreement between you (either an individual or a single entity, hereinafter
+"Licensee") and Datanexum Consulting LLC, a limited liability company organized
+under the laws of the State of Delaware, United States ("Licensor"), for the
+DataBridge AI software platform, including all source code, object code,
+compiled binaries, libraries, modules, plugins, documentation, configuration
+files, scripts, APIs, MCP tools, agents, knowledge bases, test suites,
+deployment manifests, Docker images, and all associated materials (collectively,
+the "Software").
+
+BY ACCESSING, INSTALLING, COPYING, OR OTHERWISE USING THE SOFTWARE, YOU
+ACKNOWLEDGE THAT YOU HAVE READ, UNDERSTOOD, AND AGREE TO BE BOUND BY THE TERMS
+AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST
+NOT ACCESS, INSTALL, COPY, OR USE THE SOFTWARE IN ANY MANNER.
+
+================================================================================
+
+1. OWNERSHIP AND INTELLECTUAL PROPERTY
+
+   1.1. The Software is the exclusive intellectual property of Datanexum
+        Consulting LLC. All right, title, and interest in and to the Software,
+        including but not limited to all copyrights, patents, trade secrets,
+        trademarks, and other intellectual property rights, are and shall remain
+        the sole and exclusive property of Datanexum Consulting LLC.
+
+   1.2. The Software is protected by United States copyright law, international
+        copyright treaties, and other intellectual property laws and treaties.
+
+   1.3. Nothing in this Agreement transfers any ownership rights in the Software
+        to the Licensee. The Licensee receives only the limited license rights
+        expressly granted herein.
+
+   1.4. "DataBridge AI," "DataBridge," "DataShield," "Datanexum," and all
+        associated logos, trade names, and service marks are trademarks of
+        Datanexum Consulting LLC and may not be used without prior written
+        consent.
+
+2. GRANT OF LICENSE
+
+   2.1. Subject to the terms and conditions of this Agreement and payment of all
+        applicable license fees, Datanexum Consulting LLC grants the Licensee a
+        limited, non-exclusive, non-transferable, non-sublicensable, revocable
+        license to use the Software solely in accordance with the Licensee's
+        purchased license tier:
+
+        (a) Community Edition (CE): Use of CE-tier features for internal
+            business purposes only.
+
+        (b) Pro Edition: Use of CE and Pro-tier features, subject to a valid
+            Pro license key and active subscription.
+
+        (c) Enterprise Edition: Use of all features, subject to a valid
+            Enterprise license key, active subscription, and a separately
+            executed Enterprise Agreement.
+
+   2.2. The license granted herein is strictly limited to the number of users,
+        instances, and deployment environments specified in the Licensee's
+        license key or subscription agreement.
+
+3. RESTRICTIONS — NO MODIFICATION WITHOUT WRITTEN CONSENT
+
+   3.1. THE SOFTWARE SHALL NOT BE MODIFIED, ALTERED, ADAPTED, TRANSLATED,
+        REVERSE-ENGINEERED, DECOMPILED, DISASSEMBLED, OR OTHERWISE CHANGED IN
+        ANY WAY WITHOUT THE PRIOR WRITTEN AND EXPLICIT APPROVAL OF DATANEXUM
+        CONSULTING LLC.
+
+   3.2. The Licensee may NOT, without the prior express written consent of
+        Datanexum Consulting LLC:
+
+        (a) Modify, alter, adapt, translate, or create derivative works based
+            upon the Software or any portion thereof;
+
+        (b) Reverse engineer, disassemble, decompile, decode, or otherwise
+            attempt to derive the source code, algorithms, data structures,
+            or underlying ideas of the Software;
+
+        (c) Distribute, sublicense, rent, lease, lend, sell, resell, assign,
+            or otherwise transfer the Software or any rights therein to any
+            third party;
+
+        (d) Remove, obscure, alter, or deface any proprietary notices,
+            copyright markings, labels, trademarks, logos, or legal legends
+            on or in the Software;
+
+        (e) Copy or reproduce the Software except for a single backup copy
+            for archival purposes;
+
+        (f) Use the Software to develop, directly or indirectly, any product
+            or service that competes with any product or service offered by
+            Datanexum Consulting LLC;
+
+        (g) Share, publish, disclose, or otherwise make available any license
+            key, API key, authentication credentials, or access tokens to any
+            unauthorized party;
+
+        (h) Use the Software in any manner that violates applicable local,
+            state, national, or international law or regulation;
+
+        (i) Circumvent, disable, or interfere with any security, license
+            validation, or access control mechanisms in the Software;
+
+        (j) Use the Software to process, store, or transmit any data in
+            violation of data protection or privacy regulations;
+
+        (k) Benchmark, test, or evaluate the Software for the purpose of
+            publishing comparative analyses without written consent.
+
+   3.3. Any unauthorized modification, reproduction, distribution, or use of
+        the Software constitutes a material breach of this Agreement and may
+        result in immediate termination of the license, legal action for
+        damages, and injunctive relief.
+
+4. LICENSE KEY AND VALIDATION
+
+   4.1. Use of Pro and Enterprise features requires a valid, non-expired
+        license key issued by Datanexum Consulting LLC.
+
+   4.2. License keys are personal and non-transferable. Each key is bound to
+        the Licensee's organization and may not be shared with, disclosed to,
+        or used by any other party.
+
+   4.3. The Software may perform periodic license validation checks via network
+        connection to Datanexum Consulting LLC's license servers. The Licensee
+        agrees not to interfere with, block, or circumvent such validation.
+
+   4.4. Datanexum Consulting LLC reserves the right to revoke or disable any
+        license key that is found to be in violation of this Agreement.
+
+5. CONFIDENTIALITY
+
+   5.1. The Software, including its source code, architecture, algorithms, data
+        structures, APIs, documentation, and all related materials, constitutes
+        confidential and proprietary information of Datanexum Consulting LLC
+        ("Confidential Information").
+
+   5.2. The Licensee shall not disclose, publish, or otherwise make available
+        any Confidential Information to any third party without the prior
+        written consent of Datanexum Consulting LLC.
+
+   5.3. The Licensee shall take all reasonable measures to protect the
+        confidentiality of the Software, using at least the same degree of
+        care used to protect its own confidential information, but in no event
+        less than reasonable care.
+
+   5.4. The confidentiality obligations herein shall survive the termination or
+        expiration of this Agreement.
+
+6. TERM AND TERMINATION
+
+   6.1. This Agreement is effective from the date of first access or use of
+        the Software and shall remain in effect until terminated.
+
+   6.2. The Licensee's rights under this Agreement will terminate automatically
+        and immediately, without notice, if the Licensee fails to comply with
+        any term or condition of this Agreement.
+
+   6.3. Datanexum Consulting LLC may terminate this Agreement at any time upon
+        written notice if the Licensee breaches any provision herein.
+
+   6.4. Upon termination, the Licensee must immediately:
+        (a) Cease all use of the Software;
+        (b) Destroy all copies of the Software in the Licensee's possession
+            or control, including backup copies;
+        (c) Certify in writing to Datanexum Consulting LLC that all copies
+            have been destroyed.
+
+   6.5. Sections 1, 3, 5, 7, 8, 9, 10, and 11 shall survive termination.
+
+7. DISCLAIMER OF WARRANTIES
+
+   THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTY OF ANY
+   KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, NON-INFRINGEMENT,
+   AND ACCURACY. DATANEXUM CONSULTING LLC DOES NOT WARRANT THAT THE SOFTWARE
+   WILL BE UNINTERRUPTED, ERROR-FREE, SECURE, OR FREE OF VIRUSES OR OTHER
+   HARMFUL COMPONENTS. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF
+   THE SOFTWARE IS WITH THE LICENSEE.
+
+8. LIMITATION OF LIABILITY
+
+   8.1. IN NO EVENT SHALL DATANEXUM CONSULTING LLC, ITS OFFICERS, DIRECTORS,
+        EMPLOYEES, AGENTS, AFFILIATES, OR LICENSORS BE LIABLE FOR ANY INDIRECT,
+        INCIDENTAL, SPECIAL, CONSEQUENTIAL, PUNITIVE, OR EXEMPLARY DAMAGES,
+        INCLUDING BUT NOT LIMITED TO DAMAGES FOR LOSS OF PROFITS, GOODWILL,
+        DATA, BUSINESS INTERRUPTION, OR OTHER INTANGIBLE LOSSES, ARISING OUT
+        OF OR IN CONNECTION WITH THIS AGREEMENT OR THE USE OR INABILITY TO USE
+        THE SOFTWARE, REGARDLESS OF THE THEORY OF LIABILITY (CONTRACT, TORT,
+        STRICT LIABILITY, OR OTHERWISE), EVEN IF DATANEXUM CONSULTING LLC HAS
+        BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
+
+   8.2. IN NO EVENT SHALL DATANEXUM CONSULTING LLC'S TOTAL AGGREGATE LIABILITY
+        ARISING OUT OF OR IN CONNECTION WITH THIS AGREEMENT EXCEED THE AMOUNT
+        ACTUALLY PAID BY THE LICENSEE TO DATANEXUM CONSULTING LLC FOR THE
+        SOFTWARE DURING THE TWELVE (12) MONTHS IMMEDIATELY PRECEDING THE EVENT
+        GIVING RISE TO THE CLAIM.
+
+9. INDEMNIFICATION
+
+   The Licensee agrees to indemnify, defend, and hold harmless Datanexum
+   Consulting LLC and its officers, directors, employees, agents, and
+   affiliates from and against any and all claims, damages, losses, liabilities,
+   costs, and expenses (including reasonable attorneys' fees) arising out of or
+   in connection with:
+
+   (a) The Licensee's use of the Software;
+   (b) The Licensee's breach of this Agreement;
+   (c) The Licensee's violation of any applicable law or regulation;
+   (d) Any unauthorized modification of the Software by the Licensee.
+
+10. GOVERNING LAW AND DISPUTE RESOLUTION
+
+   10.1. This Agreement shall be governed by and construed in accordance with
+         the laws of the State of Delaware, United States, without regard to
+         its conflict of law provisions.
+
+   10.2. Any dispute arising out of or relating to this Agreement shall be
+         resolved exclusively in the state or federal courts located in
+         Wilmington, Delaware, and each party irrevocably consents to the
+         personal jurisdiction of such courts.
+
+   10.3. The prevailing party in any legal action to enforce this Agreement
+         shall be entitled to recover its reasonable attorneys' fees and costs.
+
+11. GENERAL PROVISIONS
+
+   11.1. Entire Agreement: This Agreement constitutes the entire agreement
+         between the parties concerning the Software and supersedes all prior
+         or contemporaneous oral or written agreements.
+
+   11.2. Amendment: This Agreement may only be amended by a written instrument
+         signed by both parties. No modification of this Agreement shall be
+         effective unless made in writing and signed by an authorized
+         representative of Datanexum Consulting LLC.
+
+   11.3. Waiver: The failure of either party to enforce any provision of this
+         Agreement shall not constitute a waiver of such provision or the
+         right to enforce it at a later time.
+
+   11.4. Severability: If any provision of this Agreement is held to be
+         invalid or unenforceable, the remaining provisions shall continue
+         in full force and effect.
+
+   11.5. Assignment: The Licensee may not assign or transfer this Agreement
+         or any rights hereunder without the prior written consent of
+         Datanexum Consulting LLC.
+
+   11.6. Force Majeure: Neither party shall be liable for any failure to
+         perform due to causes beyond its reasonable control.
+
+   11.7. Export Compliance: The Licensee agrees to comply with all applicable
+         export control laws and regulations.
+
+12. CONTACT INFORMATION
+
+   Datanexum Consulting LLC
+   Email: legal@datanexum.com
+   Sales: sales@databridge.ai
+   Support: support@databridge.ai
+   Web: https://databridge.ai
+
+================================================================================
+
+ALL RIGHTS RESERVED. NO PART OF THIS SOFTWARE MAY BE REPRODUCED, DISTRIBUTED,
+OR TRANSMITTED IN ANY FORM OR BY ANY MEANS WITHOUT THE PRIOR WRITTEN PERMISSION
+OF DATANEXUM CONSULTING LLC.
+
+Copyright (c) 2024-2026 Datanexum Consulting LLC. All Rights Reserved.

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: databridge-azure-config
+  namespace: databridge
+  labels:
+    app: databridge
+    overlay: azure
+data:
+  DEPLOYMENT_MODE: "azure"
+  LLM_PROVIDER: "azure_openai"
+  STORAGE_BACKEND: "azure_blob"
+  # Override these per-client:
+  # AZURE_TENANT_ID: ""
+  # AZURE_CLIENT_ID: ""
+  # AZURE_KEYVAULT_URL: ""
+  # AZURE_OPENAI_ENDPOINT: ""
+  # AZURE_OPENAI_DEPLOYMENT: "gpt-4o"
+  # AZURE_BLOB_CONTAINER: "databridge"
+  # AZURE_LOG_WORKSPACE_ID: ""

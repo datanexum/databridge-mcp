@@ -1,0 +1,69 @@
+# Smithery Registry Configuration
+# https://smithery.ai — MCP server discovery and installation
+#
+# Users install via:
+#   npx @smithery/cli install @datanexum/databridge-ai
+
+name: databridge-ai
+displayName: DataBridge AI
+description: >
+  Enterprise data reconciliation, hierarchy management, and financial modeling.
+  325 tools for profiling, fuzzy matching, hash comparison, hierarchy building,
+  dbt generation, and Snowflake deployment.
+# icon: https://raw.githubusercontent.com/datanexum/DATABRIDGE_AI/master/assets/icon.png
+author:
+  name: DataBridge AI
+  url: https://github.com/datanexum
+license: MIT
+repository: https://github.com/datanexum/DATABRIDGE_AI
+
+categories:
+  - data
+  - finance
+  - analytics
+
+keywords:
+  - reconciliation
+  - data-quality
+  - profiling
+  - fuzzy-matching
+  - hierarchy
+  - dbt
+  - snowflake
+  - chart-of-accounts
+  - financial-modeling
+  - etl
+
+# Server configuration for Smithery
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      toolMode:
+        type: string
+        enum: ["slim", "full"]
+        default: "full"
+        description: "Tool loading mode. slim = ~33 workflow tools, full = 325 tools"
+      demoMode:
+        type: boolean
+        default: false
+        description: "Enable demo mode with sample data"
+    required: []
+  commandFunction: |-
+    (config) => ({
+      command: "python",
+      args: ["run_server.py", config.toolMode === "slim" ? "--slim" : "--full"],
+      env: {
+        DATABRIDGE_TOOL_MODE: config.toolMode || "full",
+        DATABRIDGE_DEMO_MODE: String(config.demoMode || false)
+      }
+    })
+
+# Docker-based alternative
+docker:
+  image: ghcr.io/datanexum/databridge-mcp:latest
+  ports:
+    - "786:786"
+  environment:
+    DATABRIDGE_TOOL_MODE: full
