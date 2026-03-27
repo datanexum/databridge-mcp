@@ -62,12 +62,12 @@ docker run -p 5050:5050 datanexum/databridge-ai:demo
 | **Terraform** | 3 | Export Snowflake objects as HCL, generate grants |
 | **VS Code** | 3 | Workspace, MCP settings, launch config generation |
 | **Batch Excel Triage** | 1 | Scan, classify, and generate quality reports for Excel file batches |
-| **IKE — Institutional Wisdom** | 34 | Self-learning knowledge engine (6 pillars): KB, Fix Gen, Debate, Scoring, Learning, Wisdom Extractor |
+| **IKE — Institutional Wisdom** | 38 | Self-learning knowledge engine (6 pillars): KB, Fix Gen, Debate, Scoring, Learning, Wisdom Extractor |
 | **And more...** | 44 | Console dashboard, recommendations, orchestrator, etc. |
 
 ### Hierarchy-Centric Architecture
 
-DataBridge AI v0.45.0 introduces a hierarchy-centric architecture where the **Hierarchy Builder** serves as the central data structure. The new **Hierarchy-Graph Bridge** (`hierarchy/graph_bridge.py`) uses event-driven propagation to keep all downstream systems in sync:
+DataBridge AI introduces a hierarchy-centric architecture where the **Hierarchy Builder** serves as the central data structure. The new **Hierarchy-Graph Bridge** (`hierarchy/graph_bridge.py`) uses event-driven propagation to keep all downstream systems in sync:
 
 - **Hierarchy changes** trigger automatic reindexing in the GraphRAG vector store
 - **Lineage graphs** are rebuilt to reflect updated hierarchy relationships
@@ -78,7 +78,7 @@ DataBridge AI v0.45.0 introduces a hierarchy-centric architecture where the **Hi
 
 GraphRAG now includes startup bootstrap and runtime health logging so graph/vector/RAG synchronization can be verified during operation.
 
-### Financial Knowledge Graph & Forensic Training (v0.49.0)
+### Financial Knowledge Graph & Forensic Training (v0.49.4)
 
 DataBridge AI now includes an **Active Financial Ontology** trained on 13,000+ multi-industry reports and 1,000+ Enterprise Chart of Accounts.
 
@@ -119,7 +119,7 @@ DataBridge AI is available in four editions:
 
 | | **Community (CE)** | **Pro** | **Pro Examples** | **Enterprise** |
 |---|:---:|:---:|:---:|:---:|
-| **Tools** | ~106 | ~247 | Tests & Tutorials | 320+ |
+| **Tools** | 340 | ~384 | Tests & Tutorials | 394 |
 | **Distribution** | Public PyPI | GitHub Packages | GitHub Packages | Private Deploy |
 | **License** | MIT (Free) | License Key | Requires Pro Key | Dedicated Key |
 | Data Reconciliation | ✅ | ✅ | | ✅ |
@@ -149,7 +149,7 @@ See [Commercialization Guide](docs/COMMERCIALIZATION.md) for full details.
 
 ## DataBridge AI Pro
 
-Pro adds **19 modules** with ~213 additional tools on top of Community Edition:
+Pro adds **19 modules** with additional tools on top of Community Edition:
 
 | Module | Tools | Description |
 |--------|-------|-------------|
@@ -306,7 +306,7 @@ mcp.run()
                │ HTTP/WS                     │ MCP
                ▼                             ▼
 ┌─────────────────────────────────────────────────────────────┐
-│            Flask Server + MCP Server (316 Tools)            │
+│            Flask Server + MCP Server (340 Tools)            │
 │                                                             │
 │  AI Layer                                                   │
 │  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
@@ -346,7 +346,7 @@ mcp.run()
 │  ┌──────────┐ ┌──────────────────────────────────────┐      │
 │  │P5:Learn  │ │ P6: Wisdom Extractor (Excel Intel)   │      │
 │  └──────────┘ └──────────────────────────────────────┘      │
-│  34 MCP tools · FastAPI :8000 · gRPC :50051                 │
+│  38 MCP tools · FastAPI :8000 · gRPC :50051                 │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -488,7 +488,7 @@ CORTEX_DEFAULT_MODEL=mistral-large
 - **[docs/GRAPHRAG_RUNTIME_OPERATIONS.md](docs/GRAPHRAG_RUNTIME_OPERATIONS.md)** - Runtime health, auto-updates, and troubleshooting for graph/vector/RAG sync
 - **[docs/excel_plugin_tutorial_user_guide.html](docs/excel_plugin_tutorial_user_guide.html)** - Excel add-in tutorial and user guide
 - **[apps/excel-plugin/SSO_SETUP.md](apps/excel-plugin/SSO_SETUP.md)** - Microsoft SSO (NAA/MSAL-first) setup for the Excel add-in
-- **IKE Microservice** (`ike/`) — Self-learning knowledge engine with 6 pillars (KB, Fix Gen, Debate, Scoring, Learning, Wisdom Extractor), 34 MCP tools, FastAPI REST + gRPC APIs
+- **IKE Microservice** (`ike/`) — Self-learning knowledge engine with 6 pillars (KB, Fix Gen, Debate, Scoring, Learning, Wisdom Extractor), 38 MCP tools, FastAPI REST + gRPC APIs
 - **[docs/compliance/OPEN_SOURCE_COMPLIANCE.md](docs/compliance/OPEN_SOURCE_COMPLIANCE.md)** - OSS compliance process and governance
 - **[docs/compliance/THIRD_PARTY_NOTICES.md](docs/compliance/THIRD_PARTY_NOTICES.md)** - Third-party package notices and license review flags
 - **[Wiki](../../wiki)** - Architecture, getting started, and tutorials
