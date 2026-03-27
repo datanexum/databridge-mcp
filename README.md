@@ -78,7 +78,7 @@ DataBridge AI introduces a hierarchy-centric architecture where the **Hierarchy 
 
 GraphRAG now includes startup bootstrap and runtime health logging so graph/vector/RAG synchronization can be verified during operation.
 
-### Financial Knowledge Graph & Forensic Training (v0.49.4)
+### Financial Knowledge Graph & Forensic Training (v0.49.5)
 
 DataBridge AI now includes an **Active Financial Ontology** trained on 13,000+ multi-industry reports and 1,000+ Enterprise Chart of Accounts.
 
